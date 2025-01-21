@@ -43,7 +43,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: auto;
+            table-layout: fixed; /* Giữ cố định tỷ lệ các cột */
         }
 
         th, td {
@@ -51,7 +51,7 @@
             border: 1px solid #ddd;
             text-align: center;
             vertical-align: middle;
-            word-wrap: break-word; /* Tự động xuống dòng */
+            word-wrap: break-word;
             overflow: hidden;
         }
 
@@ -60,17 +60,17 @@
             color: white;
         }
 
-        td:nth-child(1) { /* Cột STT */
+        td:nth-child(1) { /* STT */
             width: 10%;
         }
 
-        td:nth-child(2) { /* Cột Cá nhân / Tổ chức */
-            width: 50%;
+        td:nth-child(2) { /* Cá nhân / Tổ chức */
+            width: 60%;
             text-align: left;
         }
 
-        td:nth-child(3) { /* Cột Số tiền */
-            width: 20%;
+        td:nth-child(3) { /* Số tiền */
+            width: 30%;
             text-align: right;
         }
 
