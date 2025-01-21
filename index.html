@@ -42,10 +42,10 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed;
+            table-layout: fixed; /* Đảm bảo cột không vượt kích thước */
         }
 
-        thead {
+        thead th {
             background-color: #004d99;
             color: white;
             font-size: 1.4em;
@@ -53,6 +53,7 @@
             position: sticky;
             top: 0;
             z-index: 2;
+            text-align: center;
         }
 
         th, td {
@@ -63,7 +64,7 @@
 
         tbody {
             display: block;
-            height: 400px;
+            height: 400px; /* Giới hạn chiều cao của bảng */
             overflow-y: auto;
         }
 
@@ -87,29 +88,21 @@
         }
 
         td:nth-child(1) {
-            color: #4caf50; /* Xanh lá cây */
+            width: 10%;
+            text-align: center;
+            color: #4caf50; /* Màu xanh lá */
         }
 
         td:nth-child(2) {
-            color: #ff9800; /* Cam */
+            width: 60%;
             text-align: left;
+            color: #ff9800; /* Màu cam */
         }
 
         td:nth-child(3) {
-            color: #f44336; /* Đỏ */
-            text-align: right;
-        }
-
-        th:nth-child(1), td:nth-child(1) {
-            width: 10%;
-        }
-
-        th:nth-child(2), td:nth-child(2) {
-            width: 60%;
-        }
-
-        th:nth-child(3), td:nth-child(3) {
             width: 30%;
+            text-align: right;
+            color: #f44336; /* Màu đỏ */
         }
 
         .total {
@@ -185,7 +178,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Tên file JSON mới
+            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -197,27 +190,35 @@
 
         function populateTable(data) {
             let totalAmount = 0;
-            tableBody.innerHTML = '';
+            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
+
+                // Cột STT
                 const sttCell = document.createElement('td');
-                const nameCell = document.createElement('td');
-                const amountCell = document.createElement('td');
-
                 sttCell.textContent = entry["STT"];
-                nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                const amount = parseInt(entry["Số tiền"]) || 0;
-                amountCell.textContent = amount.toLocaleString('vi-VN');
-
                 row.appendChild(sttCell);
+
+                // Cột Cá nhân / Tổ chức
+                const nameCell = document.createElement('td');
+                nameCell.textContent = entry["Cá nhân / Tổ chức"];
                 row.appendChild(nameCell);
+
+                // Cột Số tiền
+                const amountCell = document.createElement('td');
+                const amount = entry["Số tiền"];
+                amountCell.textContent = amount.toLocaleString('vi-VN');
                 row.appendChild(amountCell);
+
+                // Thêm dòng vào bảng
                 tableBody.appendChild(row);
 
+                // Cộng tổng số tiền
                 totalAmount += amount;
             });
 
+            // Hiển thị tổng số tiền
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
