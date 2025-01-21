@@ -55,10 +55,6 @@
             z-index: 2;
         }
 
-        th {
-            text-align: center;
-        }
-
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
@@ -66,11 +62,15 @@
         }
 
         tbody {
-            display: table-row-group;
+            display: block;
+            height: 400px;
+            overflow-y: auto;
         }
 
         tbody tr {
+            display: table;
             width: 100%;
+            table-layout: fixed;
         }
 
         tbody tr:nth-child(even) {
@@ -86,16 +86,17 @@
             transition: background-color 0.3s;
         }
 
-        td {
-            font-weight: bold;
-            text-align: center;
+        td:nth-child(1) {
+            color: #4caf50; /* Xanh lá cây */
         }
 
         td:nth-child(2) {
+            color: #ff9800; /* Cam */
             text-align: left;
         }
 
         td:nth-child(3) {
+            color: #f44336; /* Đỏ */
             text-align: right;
         }
 
@@ -113,7 +114,7 @@
 
         .total {
             margin-top: 20px;
-            font-size: 3em;
+            font-size: 2em;
             font-weight: bold;
             color: #004d99;
             text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
@@ -184,7 +185,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON của bạn
+            const jsonUrl = 'data.json'; // Tên file JSON mới
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -206,7 +207,7 @@
 
                 sttCell.textContent = entry["STT"];
                 nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
+                const amount = parseInt(entry["Số tiền"]) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
 
                 row.appendChild(sttCell);
@@ -220,7 +221,6 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        // Tự động tải dữ liệu từ file JSON khi trang được mở
         fetchJSONData();
     </script>
 </body>
