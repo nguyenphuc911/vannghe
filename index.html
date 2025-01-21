@@ -42,7 +42,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed; /* Đảm bảo cột không vượt kích thước */
+            table-layout: fixed; 
         }
 
         thead th {
@@ -63,15 +63,14 @@
         }
 
         tbody {
-            display: block;
-            height: 400px; /* Giới hạn chiều cao của bảng */
+            display: block; /* Cuộn độc lập */
+            max-height: 400px;
             overflow-y: auto;
         }
 
-        tbody tr {
+        thead, tbody tr {
             display: table;
             width: 100%;
-            table-layout: fixed;
         }
 
         tbody tr:nth-child(even) {
@@ -96,13 +95,25 @@
         td:nth-child(2) {
             width: 65%;
             text-align: left;
-            color: #ff9800; /* Màu cam */
+            color: #004D99; /* Màu cam */
         }
 
         td:nth-child(3) {
             width: 25%;
             text-align: right;
             color: #f44336; /* Màu đỏ */
+        }
+
+        td:nth-child(1), th:nth-child(1) {
+            width: 10%;
+        }
+
+        td:nth-child(2), th:nth-child(2) {
+            width: 65%;
+        }
+
+        td:nth-child(3), th:nth-child(3) {
+            width: 25%;
         }
 
         .total {
@@ -175,54 +186,88 @@
 
     <script>
         const tableBody = document.getElementById('data-table');
-        const totalAmountDisplay = document.getElementById('total-amount');
+            const totalAmountDisplay = document.getElementById('total-amount');
 
-        function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON
+            let isUserScrolling = false; // Biến theo dõi trạng thái cuộn của người dùng
 
-            fetch(jsonUrl)
-                .then(response => response.json())
-                .then(data => {
-                    populateTable(data);
-                })
-                .catch(error => console.error('Lỗi khi tải file JSON:', error));
-        }
+            function fetchJSONData() {
+                const jsonUrl = './data.json'; // Đường dẫn đến file JSON
 
-        function populateTable(data) {
-            let totalAmount = 0;
-            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
+                fetch(jsonUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        populateTable(data);
+                    })
+                    .catch(error => console.error('Lỗi khi tải file JSON:', error));
+            }
 
-            data.forEach(entry => {
-                const row = document.createElement('tr');
+            function populateTable(data) {
+                let totalAmount = 0;
+                tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
-                // Cột STT
-                const sttCell = document.createElement('td');
-                sttCell.textContent = entry["STT"];
-                row.appendChild(sttCell);
+                data.forEach(entry => {
+                    const row = document.createElement('tr');
 
-                // Cột Cá nhân / Tổ chức
-                const nameCell = document.createElement('td');
-                nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                row.appendChild(nameCell);
+                    // Cột STT
+                    const sttCell = document.createElement('td');
+                    sttCell.textContent = entry["STT"];
+                    row.appendChild(sttCell);
 
-                // Cột Số tiền
-                const amountCell = document.createElement('td');
-                const amount = entry["Số tiền"];
-                amountCell.textContent = amount.toLocaleString('vi-VN');
-                row.appendChild(amountCell);
+                    // Cột Cá nhân / Tổ chức
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = entry["Cá nhân / Tổ chức"];
+                    row.appendChild(nameCell);
 
-                // Thêm dòng vào bảng
-                tableBody.appendChild(row);
+                    // Cột Số tiền
+                    const amountCell = document.createElement('td');
+                    const amount = entry["Số tiền"];
+                    amountCell.textContent = amount.toLocaleString('vi-VN');
+                    row.appendChild(amountCell);
 
-                // Cộng tổng số tiền
-                totalAmount += amount;
-            });
+                    // Thêm dòng vào bảng
+                    tableBody.appendChild(row);
 
-            // Hiển thị tổng số tiền
-            totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
-        }
+                    // Cộng tổng số tiền
+                    totalAmount += amount;
+                });
 
-        fetchJSONData();
+                // Hiển thị tổng số tiền
+                totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
+
+                // Bắt đầu cuộn tự động
+                startAutoScroll();
+            }
+
+            function startAutoScroll() {
+                let scrollPosition = tableBody.scrollTop;
+                const scrollHeight = tableBody.scrollHeight;
+                const tbodyHeight = tableBody.clientHeight;
+
+                // Dừng tự động cuộn nếu người dùng kéo thanh cuộn
+                tableBody.addEventListener('scroll', () => {
+                    isUserScrolling = true;
+                });
+
+                setInterval(() => {
+                    if (!isUserScrolling) {
+                        // Cuộn xuống dưới
+                        scrollPosition += 1;
+                        tableBody.scrollTop = scrollPosition;
+
+                        // Kiểm tra nếu đã cuộn đến cuối bảng
+                        if (scrollPosition >= scrollHeight - tbodyHeight) {
+                            scrollPosition = 0; // Quay lại đầu bảng
+                        }
+                    } else {
+                        // Để khi người dùng cuộn, tự động cuộn tiếp từ vị trí đó
+                        scrollPosition = tableBody.scrollTop;
+                        isUserScrolling = false; // Reset sau khi người dùng đã ngừng cuộn
+                    }
+                }, 20); // Thời gian cuộn, có thể điều chỉnh để làm nhanh hoặc chậm hơn
+            }
+
+            fetchJSONData();
     </script>
+
 </body>
 </html>
