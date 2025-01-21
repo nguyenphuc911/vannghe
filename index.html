@@ -89,8 +89,15 @@
         }
 
         td {
-            text-align: center;
             font-weight: bold;
+        }
+
+        td:first-child {
+            text-align: left;
+        }
+
+        td:last-child {
+            text-align: right;
         }
 
         .total {
@@ -146,7 +153,7 @@
             <thead>
                 <tr>
                     <th>Cá nhân / Tổ chức</th>
-                    <th>Số tiền (VND)</th>
+                    <th>Số tiền ủng hộ (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
