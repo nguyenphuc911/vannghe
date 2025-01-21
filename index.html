@@ -56,13 +56,17 @@
             z-index: 2;
         }
 
+        th {
+            text-align: center;
+        }
+
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
+            word-wrap: break-word;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            text-align: center;
         }
 
         tbody {
@@ -79,7 +83,7 @@
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f0f8ff;
         }
 
         tbody tr:nth-child(odd) {
@@ -91,12 +95,24 @@
             transition: background-color 0.3s;
         }
 
+        td {
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+
+        td:nth-child(1) {
+            color: #4caf50;
+        }
+
         td:nth-child(2) {
             text-align: left;
+            color: #2196f3;
         }
 
         td:nth-child(3) {
             text-align: right;
+            color: #f44336;
         }
 
         th:nth-child(1), td:nth-child(1) {
@@ -184,7 +200,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON của bạn
+            const jsonUrl = 'data.json';
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -204,7 +220,7 @@
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
-                sttCell.textContent = index + 1; // Đánh số thứ tự
+                sttCell.textContent = index + 1;
                 nameCell.textContent = entry["Cá nhân / Tổ chức"];
                 const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
