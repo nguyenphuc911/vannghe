@@ -30,51 +30,51 @@
         .table-container {
             width: 95%;
             max-width: 1100px;
-            height: 600px;
+            height: auto;
             overflow: hidden;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid #90caf9;
-            position: relative;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: auto;
+            table-layout: fixed;
+        }
+
+        thead {
+            background-color: #004d99;
+            color: white;
+            font-size: 1.4em;
+            text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        th {
+            text-align: center;
         }
 
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
-            text-align: center;
-            vertical-align: middle;
             word-wrap: break-word;
-            overflow: hidden;
-        }
-
-        th {
-            background-color: #004d99;
-            color: white;
         }
 
         tbody {
-            display: block;
-            height: 500px;
-            overflow-y: auto;
-            scroll-behavior: smooth;
+            display: table-row-group;
         }
 
         tbody tr {
-            display: table;
             width: 100%;
-            table-layout: auto;
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f0f8ff;
+            background-color: #f9f9f9;
         }
 
         tbody tr:nth-child(odd) {
@@ -84,6 +84,31 @@
         tbody tr:hover {
             background-color: #ffe0b2;
             transition: background-color 0.3s;
+        }
+
+        td {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        td:nth-child(2) {
+            text-align: left;
+        }
+
+        td:nth-child(3) {
+            text-align: right;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 10%;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 60%;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 30%;
         }
 
         .total {
@@ -99,7 +124,36 @@
             font-size: 1.5em;
             color: red;
             font-weight: bold;
+            animation: pulse 2s infinite;
             text-align: center;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        tbody::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        tbody::-webkit-scrollbar-thumb {
+            background-color: #64b5f6;
+            border-radius: 4px;
+        }
+
+        tbody::-webkit-scrollbar-track {
+            background-color: #e3f2fd;
         }
     </style>
 </head>
@@ -109,13 +163,13 @@
         <table>
             <thead>
                 <tr>
-                    <th id="stt-col">STT</th>
-                    <th id="name-col">Cá nhân / Tổ chức</th>
-                    <th id="amount-col">Số tiền (VNĐ)</th>
+                    <th>STT</th>
+                    <th>Cá nhân / Tổ chức</th>
+                    <th>Số tiền (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
-                <!-- Dữ liệu sẽ được tự động cập nhật -->
+                <!-- Dữ liệu sẽ được điền vào -->
             </tbody>
         </table>
     </div>
@@ -129,34 +183,30 @@
         const tableBody = document.getElementById('data-table');
         const totalAmountDisplay = document.getElementById('total-amount');
 
-        function fetchAndUpdateData() {
-            const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
+        function fetchJSONData() {
+            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON của bạn
 
             fetch(jsonUrl)
-                .then(response => {
-                    if (!response.ok) throw new Error("HTTP error " + response.status);
-                    return response.json();
-                })
+                .then(response => response.json())
                 .then(data => {
-                    updateTable(data); // Cập nhật dữ liệu
+                    populateTable(data);
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
         }
 
-        function updateTable(data) {
+        function populateTable(data) {
             let totalAmount = 0;
-            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
+            tableBody.innerHTML = '';
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
-
                 const sttCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
                 sttCell.textContent = entry["STT"];
                 nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                const amount = parseInt(entry["Số tiền"]) || 0;
+                const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
 
                 row.appendChild(sttCell);
@@ -170,9 +220,8 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        // Tự động cập nhật dữ liệu mỗi 5 giây
-        setInterval(fetchAndUpdateData, 5000);
-        fetchAndUpdateData(); // Gọi ngay lần đầu
+        // Tự động tải dữ liệu từ file JSON khi trang được mở
+        fetchJSONData();
     </script>
 </body>
 </html>
