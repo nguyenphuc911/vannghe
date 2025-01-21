@@ -128,9 +128,6 @@
     <script>
         const tableBody = document.getElementById('data-table');
         const totalAmountDisplay = document.getElementById('total-amount');
-        const sttCol = document.getElementById('stt-col');
-        const nameCol = document.getElementById('name-col');
-        const amountCol = document.getElementById('amount-col');
 
         function fetchAndUpdateData() {
             const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
@@ -141,38 +138,16 @@
                     return response.json();
                 })
                 .then(data => {
-                    adjustColumnWidths(data); // Cập nhật độ rộng cột
-                    updateTable(data);       // Cập nhật dữ liệu
+                    updateTable(data); // Cập nhật dữ liệu
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
-        }
-
-        function adjustColumnWidths(data) {
-            let maxSttWidth = 0;
-            let maxNameWidth = 0;
-            let maxAmountWidth = 0;
-
-            data.forEach(entry => {
-                maxSttWidth = Math.max(maxSttWidth, entry["STT"].toString().length);
-                maxNameWidth = Math.max(maxNameWidth, entry["Cá nhân / Tổ chức"].length);
-                maxAmountWidth = Math.max(maxAmountWidth, entry["Số tiền"].length);
-            });
-
-            const totalWidth = maxSttWidth + maxNameWidth + maxAmountWidth;
-            const sttWidth = Math.max(10, (maxSttWidth / totalWidth) * 100); // Ít nhất 10%
-            const nameWidth = Math.max(40, (maxNameWidth / totalWidth) * 100); // Ít nhất 40%
-            const amountWidth = Math.max(20, (maxAmountWidth / totalWidth) * 100); // Ít nhất 20%
-
-            sttCol.style.width = `${sttWidth}%`;
-            nameCol.style.width = `${nameWidth}%`;
-            amountCol.style.width = `${amountWidth}%`;
         }
 
         function updateTable(data) {
             let totalAmount = 0;
             tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
-            data.forEach((entry, index) => {
+            data.forEach(entry => {
                 const row = document.createElement('tr');
 
                 const sttCell = document.createElement('td');
@@ -181,7 +156,7 @@
 
                 sttCell.textContent = entry["STT"];
                 nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
+                const amount = parseInt(entry["Số tiền"]) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
 
                 row.appendChild(sttCell);
