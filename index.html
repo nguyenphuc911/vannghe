@@ -41,22 +41,25 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.1em;
+            font-size: 1.3em;
         }
 
         thead {
             background-color: #004d99;
             color: white;
-            font-size: 1.3em;
+            font-size: 1.4em;
             text-transform: uppercase;
             position: sticky;
             top: 0;
             z-index: 2;
         }
 
+        th {
+            text-align: center;
+        }
+
         th, td {
             padding: 15px;
-            text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
@@ -64,7 +67,6 @@
             display: block;
             height: 400px;
             overflow-y: auto;
-            position: relative;
         }
 
         tbody tr {
@@ -73,15 +75,27 @@
             table-layout: fixed;
         }
 
+        tbody tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
         tbody tr:hover {
             background-color: #e3f2fd;
-            transform: scale(1.02);
-            transition: 0.3s;
+            transition: background-color 0.3s;
+        }
+
+        td {
+            text-align: center;
+            font-weight: bold;
         }
 
         .total {
             margin-top: 20px;
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
             color: #004d99;
             text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
@@ -89,10 +103,11 @@
 
         footer {
             margin-top: 30px;
-            font-size: 1em;
+            font-size: 1.5em;
             color: #ff704d;
             font-weight: bold;
             animation: pulse 2s infinite;
+            text-align: center;
         }
 
         @keyframes pulse {
@@ -142,7 +157,7 @@
     <div class="total">Tổng số tiền: <span id="total-amount">0</span> VND</div>
 
     <footer>
-        <p>Chân thành cảm ơn các mạnh thường quân đã ủng hộ, góp phần xây dựng cộng đồng tốt đẹp hơn!</p>
+        <p>Trường THPT Phan Liêm xin chân thành cảm ơn tấm lòng vàng của các mạnh thường quân!</p>
     </footer>
 
     <script>
