@@ -43,27 +43,18 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed;
-        }
-
-        thead {
-            background-color: #004d99;
-            color: white;
-            font-size: 1.4em;
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-            z-index: 2;
+            table-layout: fixed; /* Đảm bảo các cột có chiều rộng cố định */
         }
 
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             text-align: center;
         }
+
+        th:nth-child(1), td:nth-child(1) { width: 10%; } /* STT */
+        th:nth-child(2), td:nth-child(2) { width: 60%; } /* Cá nhân / Tổ chức */
+        th:nth-child(3), td:nth-child(3) { width: 30%; } /* Số tiền */
 
         tbody {
             display: block;
@@ -104,23 +95,7 @@
             font-size: 1.5em;
             color: red;
             font-weight: bold;
-            animation: pulse 2s infinite;
             text-align: center;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.9;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
         }
     </style>
 </head>
@@ -151,7 +126,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchAndUpdateData() {
-            const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
+            const jsonUrl = 'data.json'; // Đường dẫn tới file JSON
 
             fetch(jsonUrl)
                 .then(response => {
@@ -170,6 +145,7 @@
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
+
                 const sttCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
