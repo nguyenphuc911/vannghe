@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DANH SÁCH ỦNG HỘ</title>
+    <title>Danh sách ủng hộ</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -106,26 +106,19 @@
         <p>&copy; 2025 Hiển thị quyên góp | Bản quyền thuộc về bạn</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script>
         const tableBody = document.getElementById('data-table');
         const totalAmountDisplay = document.getElementById('total-amount');
 
-        function fetchCSVData() {
-            const csvUrl = 'Donation_Template.csv';
+        function fetchJSONData() {
+            const jsonUrl = 'data.json';
 
-            fetch(csvUrl)
-                .then(response => response.text())
-                .then(csvData => {
-                    Papa.parse(csvData, {
-                        header: true,
-                        skipEmptyLines: true,
-                        complete: function(results) {
-                            populateTable(results.data);
-                        }
-                    });
+            fetch(jsonUrl)
+                .then(response => response.json())
+                .then(data => {
+                    populateTable(data);
                 })
-                .catch(error => console.error('Lỗi khi tải file CSV:', error));
+                .catch(error => console.error('Lỗi khi tải file JSON:', error));
         }
 
         function populateTable(data) {
@@ -138,19 +131,21 @@
                 const amountCell = document.createElement('td');
 
                 nameCell.textContent = entry['Họ và tên'];
-                amountCell.textContent = parseInt(entry['Số tiền'].replace(/,/g, '')).toLocaleString('vi-VN') + ' VNĐ';
+                amountCell.textContent = parseInt(entry['Số tiền']).toLocaleString('vi-VN') + ' VNĐ';
 
                 row.appendChild(nameCell);
                 row.appendChild(amountCell);
                 tableBody.appendChild(row);
 
-                totalAmount += parseInt(entry['Số tiền'].replace(/,/g, ''));
+                totalAmount += parseInt(entry['Số tiền']);
             });
 
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN') + ' VNĐ';
         }
 
-        fetchCSVData();
+        // Tự động tải lại dữ liệu sau mỗi 15 phút
+        fetchJSONData();
+        setInterval(fetchJSONData, 900000);
     </script>
 </body>
 </html>
