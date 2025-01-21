@@ -61,12 +61,11 @@
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px 15px;
             border: 1px solid #ddd;
-            word-wrap: break-word; /* Đảm bảo văn bản không tràn cột */
+            white-space: nowrap; /* Không cho phép xuống dòng */
             overflow: hidden; /* Ẩn nội dung tràn */
-            white-space: nowrap; /* Không cho xuống dòng */
-            text-overflow: ellipsis; /* Thêm dấu "..." khi tràn */
+            text-overflow: ellipsis; /* Hiển thị "..." khi nội dung quá dài */
         }
 
         tbody {
@@ -79,7 +78,7 @@
         tbody tr {
             display: table;
             width: 100%;
-            table-layout: fixed;
+            table-layout: fixed; /* Đảm bảo cột không thay đổi kích thước */
         }
 
         tbody tr:nth-child(even) {
@@ -98,7 +97,7 @@
         td {
             font-weight: bold;
             text-align: center;
-            color: #333; /* Màu chữ mặc định */
+            color: #333;
         }
 
         td:nth-child(1) {
@@ -116,15 +115,15 @@
         }
 
         th:nth-child(1), td:nth-child(1) {
-            width: 10%; /* STT chiếm 10% */
+            width: 10%; /* Cột STT chiếm 10% */
         }
 
         th:nth-child(2), td:nth-child(2) {
-            width: 60%; /* Cá nhân / Tổ chức chiếm 60% */
+            width: 60%; /* Cột Cá nhân / Tổ chức chiếm 60% */
         }
 
         th:nth-child(3), td:nth-child(3) {
-            width: 30%; /* Số tiền chiếm 30% */
+            width: 30%; /* Cột Số tiền chiếm 30% */
         }
 
         .total {
@@ -206,7 +205,6 @@
                 .then(response => response.json())
                 .then(data => {
                     populateTable(data);
-                    autoScroll();
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
         }
@@ -237,15 +235,7 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        function autoScroll() {
-            setInterval(() => {
-                tableBody.scrollTop += 1;
-                if (tableBody.scrollTop >= tableBody.scrollHeight - tableBody.clientHeight) {
-                    tableBody.scrollTop = 0;
-                }
-            }, 50);
-        }
-
+        // Tự động tải dữ liệu từ file JSON
         fetchJSONData();
     </script>
 </body>
