@@ -136,29 +136,33 @@
 
 
         footer {
-            margin-top: 30px;
-            font-size: 1.5em;
-            color: red;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-            text-align: center;
-        }
+    margin-top: 10px; /* Di chuyển lên trên bằng cách giảm margin-top */
+    font-size: 1.5em;
+    color: #0f0500;
+    font-weight: bold;
+    text-align: center;
+    animation: wave 3s infinite; /* Hiệu ứng lượn sóng */
+}
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.05);
-                opacity: 0.9;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
+@keyframes wave {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    75% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
 
+      
         tbody::-webkit-scrollbar {
             width: 8px;
         }
