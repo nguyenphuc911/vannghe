@@ -30,12 +30,13 @@
         .table-container {
             width: 95%;
             max-width: 1100px;
-            height: auto;
+            height: 600px;
             overflow: hidden;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.9);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid #90caf9;
+            position: relative;
         }
 
         table {
@@ -66,19 +67,24 @@
         }
 
         tbody {
-            display: table-row-group;
+            display: block;
+            height: 500px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
         }
 
         tbody tr {
+            display: table;
             width: 100%;
+            table-layout: fixed;
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f0f8ff; /* Dòng chẵn: xanh nhạt */
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #ffffff;
+            background-color: #ffffff; /* Dòng lẻ: trắng */
         }
 
         tbody tr:hover {
@@ -89,13 +95,20 @@
         td {
             font-weight: bold;
             text-align: center;
+            color: #333; /* Màu chữ mặc định */
+        }
+
+        td:nth-child(1) {
+            color: #4caf50; /* Màu xanh lá cho cột STT */
         }
 
         td:nth-child(2) {
+            color: #2196f3; /* Màu xanh dương cho cột Cá nhân / Tổ chức */
             text-align: left;
         }
 
         td:nth-child(3) {
+            color: #f44336; /* Màu đỏ cho cột Số tiền */
             text-align: right;
         }
 
@@ -184,12 +197,13 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON của bạn
+            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON
 
             fetch(jsonUrl)
                 .then(response => response.json())
                 .then(data => {
                     populateTable(data);
+                    autoScroll();
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
         }
@@ -218,6 +232,15 @@
             });
 
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
+        }
+
+        function autoScroll() {
+            setInterval(() => {
+                tableBody.scrollTop += 1;
+                if (tableBody.scrollTop >= tableBody.scrollHeight - tableBody.clientHeight) {
+                    tableBody.scrollTop = 0;
+                }
+            }, 50);
         }
 
         // Tự động tải dữ liệu từ file JSON khi trang được mở
