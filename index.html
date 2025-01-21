@@ -21,11 +21,11 @@
 
         h1 {
             margin: 20px;
-            font-size: 2.5em;
-            color: #8B0000; /* Đỏ thẫm */
+            font-size: 3em;
+            color: #004d99;
+            text-align: center; 
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
             text-transform: uppercase;
-            font-weight: bold;
         }
 
         .table-container {
@@ -88,21 +88,36 @@
         }
 
         td:nth-child(1) {
-            font-weight: bold;
-            color: #b8860b; /* Vàng đồng */
+            width: 10%;
             text-align: center;
+            font-weight: bold;
+            color: #b8860b; /* Màu vàng đồng */
         }
 
         td:nth-child(2) {
-            font-weight: bold;
-            color: #006400; /* Xanh lá thật đậm */
+            width: 65%;
             text-align: left;
+            font-weight: bold;
+            color: #006400; /* Màu xanh đậm */
         }
 
         td:nth-child(3) {
-            font-weight: bold;
-            color: #b22222; /* Đỏ in đậm */
+            width: 25%;
             text-align: right;
+            font-weight: bold;
+            color: #b22222; /* Màu đỏ */
+        }
+
+        td:nth-child(1), th:nth-child(1) {
+            width: 10%;
+        }
+
+        td:nth-child(2), th:nth-child(2) {
+            width: 65%;
+        }
+
+        td:nth-child(3), th:nth-child(3) {
+            width: 25%;
         }
 
         .total {
@@ -111,24 +126,29 @@
             font-weight: bold;
             color: #004d99;
             text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
-            text-align: right; /* Dời sang phải */
         }
 
         footer {
             margin-top: 30px;
             font-size: 1.5em;
-            color: #4682b4; /* Màu xanh nổi bật */
+            color: red;
             font-weight: bold;
+            animation: pulse 2s infinite;
             text-align: center;
-            animation: fadeInOut 3s infinite;
         }
 
-        @keyframes fadeInOut {
-            0%, 100% {
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
                 opacity: 1;
             }
             50% {
-                opacity: 0.5;
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
             }
         }
 
@@ -165,80 +185,93 @@
     <div class="total">Tổng số tiền: <span id="total-amount">0</span> VND</div>
 
     <footer>
-        <p>Xin chân thành cảm ơn tấm lòng cao quý của quý mạnh thường quân!</p>
+        <p>Xin chân thành cảm ơn tấm lòng vàng của các mạnh thường quân!</p>
     </footer>
 
     <script>
         const tableBody = document.getElementById('data-table');
-        const totalAmountDisplay = document.getElementById('total-amount');
+            const totalAmountDisplay = document.getElementById('total-amount');
 
-        let isUserScrolling = false;
+            let isUserScrolling = false; // Biến theo dõi trạng thái cuộn của người dùng
 
-        function fetchJSONData() {
-            const jsonUrl = './data.json';
+            function fetchJSONData() {
+                const jsonUrl = './data.json'; // Đường dẫn đến file JSON
 
-            fetch(jsonUrl)
-                .then(response => response.json())
-                .then(data => {
-                    populateTable(data);
-                })
-                .catch(error => console.error('Lỗi khi tải file JSON:', error));
-        }
+                fetch(jsonUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        populateTable(data);
+                    })
+                    .catch(error => console.error('Lỗi khi tải file JSON:', error));
+            }
 
-        function populateTable(data) {
-            let totalAmount = 0;
-            tableBody.innerHTML = '';
+            function populateTable(data) {
+                let totalAmount = 0;
+                tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
-            data.forEach(entry => {
-                const row = document.createElement('tr');
+                data.forEach(entry => {
+                    const row = document.createElement('tr');
 
-                const sttCell = document.createElement('td');
-                sttCell.textContent = entry["STT"];
-                row.appendChild(sttCell);
+                    // Cột STT
+                    const sttCell = document.createElement('td');
+                    sttCell.textContent = entry["STT"];
+                    row.appendChild(sttCell);
 
-                const nameCell = document.createElement('td');
-                nameCell.textContent = entry["Cá nhân / Tổ chức"];
-                row.appendChild(nameCell);
+                    // Cột Cá nhân / Tổ chức
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = entry["Cá nhân / Tổ chức"];
+                    row.appendChild(nameCell);
 
-                const amountCell = document.createElement('td');
-                const amount = entry["Số tiền"];
-                amountCell.textContent = amount.toLocaleString('vi-VN');
-                row.appendChild(amountCell);
+                    // Cột Số tiền
+                    const amountCell = document.createElement('td');
+                    const amount = entry["Số tiền"];
+                    amountCell.textContent = amount.toLocaleString('vi-VN');
+                    row.appendChild(amountCell);
 
-                tableBody.appendChild(row);
+                    // Thêm dòng vào bảng
+                    tableBody.appendChild(row);
 
-                totalAmount += amount;
-            });
+                    // Cộng tổng số tiền
+                    totalAmount += amount;
+                });
 
-            totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
-            startAutoScroll();
-        }
+                // Hiển thị tổng số tiền
+                totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
 
-        function startAutoScroll() {
-            let scrollPosition = tableBody.scrollTop;
-            const scrollHeight = tableBody.scrollHeight;
-            const tbodyHeight = tableBody.clientHeight;
+                // Bắt đầu cuộn tự động
+                startAutoScroll();
+            }
 
-            tableBody.addEventListener('scroll', () => {
-                isUserScrolling = true;
-            });
+            function startAutoScroll() {
+                let scrollPosition = tableBody.scrollTop;
+                const scrollHeight = tableBody.scrollHeight;
+                const tbodyHeight = tableBody.clientHeight;
 
-            setInterval(() => {
-                if (!isUserScrolling) {
-                    scrollPosition += 1;
-                    tableBody.scrollTop = scrollPosition;
+                // Dừng tự động cuộn nếu người dùng kéo thanh cuộn
+                tableBody.addEventListener('scroll', () => {
+                    isUserScrolling = true;
+                });
 
-                    if (scrollPosition >= scrollHeight - tbodyHeight) {
-                        scrollPosition = 0;
+                setInterval(() => {
+                    if (!isUserScrolling) {
+                        // Cuộn xuống dưới
+                        scrollPosition += 1;
+                        tableBody.scrollTop = scrollPosition;
+
+                        // Kiểm tra nếu đã cuộn đến cuối bảng
+                        if (scrollPosition >= scrollHeight - tbodyHeight) {
+                            scrollPosition = 0; // Quay lại đầu bảng
+                        }
+                    } else {
+                        // Để khi người dùng cuộn, tự động cuộn tiếp từ vị trí đó
+                        scrollPosition = tableBody.scrollTop;
+                        isUserScrolling = false; // Reset sau khi người dùng đã ngừng cuộn
                     }
-                } else {
-                    scrollPosition = tableBody.scrollTop;
-                    isUserScrolling = false;
-                }
-            }, 20);
-        }
+                }, 20); // Thời gian cuộn, có thể điều chỉnh để làm nhanh hoặc chậm hơn
+            }
 
-        fetchJSONData();
+            fetchJSONData();
     </script>
+
 </body>
 </html>
