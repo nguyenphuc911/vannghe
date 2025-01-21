@@ -199,8 +199,8 @@
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
-                sttCell.textContent = index + 1;
-                nameCell.textContent = entry['Họ và tên'] || 'Không rõ';
+                sttCell.textContent = entry['STT'] || index + 1;
+                nameCell.textContent = entry['Cá nhân / Tổ chức'] || 'Không rõ';
                 const amount = parseInt(entry['Số tiền'].replace(/[^0-9]/g, '')) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
 
