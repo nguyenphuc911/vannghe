@@ -91,32 +91,6 @@
             transition: background-color 0.3s;
         }
 
-        td:nth-child(1) {
-            color: #4caf50;
-        }
-
-        td:nth-child(2) {
-            color: #2196f3;
-            text-align: left;
-        }
-
-        td:nth-child(3) {
-            color: #f44336;
-            text-align: right;
-        }
-
-        th:nth-child(1), td:nth-child(1) {
-            width: 10%;
-        }
-
-        th:nth-child(2), td:nth-child(2) {
-            width: 60%;
-        }
-
-        th:nth-child(3), td:nth-child(3) {
-            width: 30%;
-        }
-
         .total {
             margin-top: 20px;
             font-size: 2em;
@@ -148,19 +122,6 @@
                 opacity: 1;
             }
         }
-
-        tbody::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        tbody::-webkit-scrollbar-thumb {
-            background-color: #64b5f6;
-            border-radius: 4px;
-        }
-
-        tbody::-webkit-scrollbar-track {
-            background-color: #e3f2fd;
-        }
     </style>
 </head>
 <body>
@@ -175,7 +136,7 @@
                 </tr>
             </thead>
             <tbody id="data-table">
-                <!-- Dữ liệu sẽ được điền vào -->
+                <!-- Dữ liệu sẽ được tự động cập nhật -->
             </tbody>
         </table>
     </div>
@@ -189,20 +150,23 @@
         const tableBody = document.getElementById('data-table');
         const totalAmountDisplay = document.getElementById('total-amount');
 
-        function fetchJSONData() {
-            const jsonUrl = 'data.json';
+        function fetchAndUpdateData() {
+            const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
 
             fetch(jsonUrl)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error("HTTP error " + response.status);
+                    return response.json();
+                })
                 .then(data => {
-                    populateTable(data);
+                    updateTable(data);
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
         }
 
-        function populateTable(data) {
+        function updateTable(data) {
             let totalAmount = 0;
-            tableBody.innerHTML = '';
+            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
@@ -226,7 +190,9 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        fetchJSONData();
+        // Tự động cập nhật dữ liệu mỗi 5 giây
+        setInterval(fetchAndUpdateData, 5000);
+        fetchAndUpdateData(); // Gọi ngay lần đầu
     </script>
 </body>
 </html>
