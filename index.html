@@ -43,7 +43,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed; /* Giữ cố định tỷ lệ các cột */
+            table-layout: auto; /* Sử dụng tự động, tối ưu bằng JS */
         }
 
         th, td {
@@ -60,20 +60,6 @@
             color: white;
         }
 
-        td:nth-child(1) { /* STT */
-            width: 10%;
-        }
-
-        td:nth-child(2) { /* Cá nhân / Tổ chức */
-            width: 60%;
-            text-align: left;
-        }
-
-        td:nth-child(3) { /* Số tiền */
-            width: 30%;
-            text-align: right;
-        }
-
         tbody {
             display: block;
             height: 500px;
@@ -84,7 +70,7 @@
         tbody tr {
             display: table;
             width: 100%;
-            table-layout: fixed;
+            table-layout: auto;
         }
 
         tbody tr:nth-child(even) {
@@ -123,9 +109,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Cá nhân / Tổ chức</th>
-                    <th>Số tiền (VNĐ)</th>
+                    <th id="stt-col">STT</th>
+                    <th id="name-col">Cá nhân / Tổ chức</th>
+                    <th id="amount-col">Số tiền (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
@@ -142,6 +128,9 @@
     <script>
         const tableBody = document.getElementById('data-table');
         const totalAmountDisplay = document.getElementById('total-amount');
+        const sttCol = document.getElementById('stt-col');
+        const nameCol = document.getElementById('name-col');
+        const amountCol = document.getElementById('amount-col');
 
         function fetchAndUpdateData() {
             const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
@@ -152,9 +141,31 @@
                     return response.json();
                 })
                 .then(data => {
-                    updateTable(data);
+                    adjustColumnWidths(data); // Cập nhật độ rộng cột
+                    updateTable(data);       // Cập nhật dữ liệu
                 })
                 .catch(error => console.error('Lỗi khi tải file JSON:', error));
+        }
+
+        function adjustColumnWidths(data) {
+            let maxSttWidth = 0;
+            let maxNameWidth = 0;
+            let maxAmountWidth = 0;
+
+            data.forEach(entry => {
+                maxSttWidth = Math.max(maxSttWidth, entry["STT"].toString().length);
+                maxNameWidth = Math.max(maxNameWidth, entry["Cá nhân / Tổ chức"].length);
+                maxAmountWidth = Math.max(maxAmountWidth, entry["Số tiền"].length);
+            });
+
+            const totalWidth = maxSttWidth + maxNameWidth + maxAmountWidth;
+            const sttWidth = Math.max(10, (maxSttWidth / totalWidth) * 100); // Ít nhất 10%
+            const nameWidth = Math.max(40, (maxNameWidth / totalWidth) * 100); // Ít nhất 40%
+            const amountWidth = Math.max(20, (maxAmountWidth / totalWidth) * 100); // Ít nhất 20%
+
+            sttCol.style.width = `${sttWidth}%`;
+            nameCol.style.width = `${nameWidth}%`;
+            amountCol.style.width = `${amountWidth}%`;
         }
 
         function updateTable(data) {
