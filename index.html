@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(120deg, #ffffff, #dfe9f3);
+            background: linear-gradient(120deg, #e3f2fd, #bbdefb);
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,9 +20,10 @@
 
         h1 {
             margin: 20px;
-            font-size: 2.5em;
-            color: #333;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 3em;
+            color: #1565c0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
         }
 
         .table-container {
@@ -31,21 +32,22 @@
             height: 500px;
             overflow: hidden;
             border-radius: 15px;
-            background: #f9f9f9;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e0e0e0;
+            background: #ffffff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border: 1px solid #90caf9;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1em;
+            font-size: 1.1em;
         }
 
         thead {
-            background-color: #007bff;
+            background-color: #1e88e5;
             color: white;
-            font-size: 1.2em;
+            font-size: 1.3em;
+            text-transform: uppercase;
         }
 
         th, td {
@@ -59,6 +61,7 @@
             height: 400px;
             overflow-y: auto;
             position: relative;
+            animation: scroll 20s linear infinite;
         }
 
         tbody tr {
@@ -68,20 +71,45 @@
         }
 
         tbody tr:hover {
-            background-color: #f1f1f1;
+            background-color: #e3f2fd;
+            transform: scale(1.02);
+            transition: 0.3s;
         }
 
         .total {
             margin-top: 20px;
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: bold;
-            color: #444;
+            color: #0d47a1;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
         }
 
         footer {
             margin-top: 30px;
             font-size: 0.9em;
             color: #555;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        tbody::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        tbody::-webkit-scrollbar-thumb {
+            background-color: #64b5f6;
+            border-radius: 4px;
+        }
+
+        tbody::-webkit-scrollbar-track {
+            background-color: #e3f2fd;
         }
     </style>
 </head>
@@ -100,7 +128,7 @@
             </tbody>
         </table>
     </div>
-    <div class="total">Tổng số tiền: <span id="total-amount">0</span> VNĐ</div>
+    <div class="total">Tổng số tiền: <span id="total-amount">0</span></div>
 
     <footer>
         <p>&copy; 2025 Hiển thị quyên góp | Bản quyền thuộc về bạn</p>
@@ -131,7 +159,7 @@
                 const amountCell = document.createElement('td');
 
                 nameCell.textContent = entry['Họ và tên'];
-                amountCell.textContent = parseInt(entry['Số tiền']).toLocaleString('vi-VN') + ' VNĐ';
+                amountCell.textContent = parseInt(entry['Số tiền']).toLocaleString('vi-VN');
 
                 row.appendChild(nameCell);
                 row.appendChild(amountCell);
@@ -140,7 +168,7 @@
                 totalAmount += parseInt(entry['Số tiền']);
             });
 
-            totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN') + ' VNĐ';
+            totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
         // Tự động tải lại dữ liệu sau mỗi 15 phút
