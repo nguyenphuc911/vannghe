@@ -43,18 +43,36 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed; /* Đảm bảo các cột có chiều rộng cố định */
+            table-layout: auto;
         }
 
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
             text-align: center;
+            vertical-align: middle;
+            word-wrap: break-word; /* Tự động xuống dòng */
+            overflow: hidden;
         }
 
-        th:nth-child(1), td:nth-child(1) { width: 10%; } /* STT */
-        th:nth-child(2), td:nth-child(2) { width: 60%; } /* Cá nhân / Tổ chức */
-        th:nth-child(3), td:nth-child(3) { width: 30%; } /* Số tiền */
+        th {
+            background-color: #004d99;
+            color: white;
+        }
+
+        td:nth-child(1) { /* Cột STT */
+            width: 10%;
+        }
+
+        td:nth-child(2) { /* Cột Cá nhân / Tổ chức */
+            width: 50%;
+            text-align: left;
+        }
+
+        td:nth-child(3) { /* Cột Số tiền */
+            width: 20%;
+            text-align: right;
+        }
 
         tbody {
             display: block;
@@ -126,7 +144,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchAndUpdateData() {
-            const jsonUrl = 'data.json'; // Đường dẫn tới file JSON
+            const jsonUrl = 'data.json'; // Thay đường dẫn tới file JSON
 
             fetch(jsonUrl)
                 .then(response => {
@@ -143,7 +161,7 @@
             let totalAmount = 0;
             tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
-            data.forEach(entry => {
+            data.forEach((entry, index) => {
                 const row = document.createElement('tr');
 
                 const sttCell = document.createElement('td');
