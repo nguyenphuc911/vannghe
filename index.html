@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: url('anh_nen.jpg') no-repeat center center fixed;
+            background: url('anhnen.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 0;
@@ -59,8 +59,8 @@
         }
 
         th, td {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            border: 1px solid #ddd;
         }
 
         tbody {
@@ -76,7 +76,7 @@
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f1f1f1;
+            background-color: #f9f9f9;
         }
 
         tbody tr:nth-child(odd) {
@@ -93,6 +93,10 @@
         }
 
         td:first-child {
+            text-align: center;
+        }
+
+        td:nth-child(2) {
             text-align: left;
         }
 
@@ -152,8 +156,9 @@
         <table>
             <thead>
                 <tr>
+                    <th>STT</th>
                     <th>Cá nhân / Tổ chức</th>
-                    <th>Số tiền ủng hộ (VNĐ)</th>
+                    <th>Số tiền (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
@@ -164,7 +169,7 @@
     <div class="total">Tổng số tiền: <span id="total-amount">0</span> VND</div>
 
     <footer>
-        <p>Xin chân thành cảm ơn tấm lòng vàng của các mạnh thường quân!</p>
+        <p>Trường THPT Phan Liêm xin chân thành cảm ơn tấm lòng vàng của các mạnh thường quân!</p>
     </footer>
 
     <script>
@@ -186,14 +191,17 @@
             let totalAmount = 0;
             tableBody.innerHTML = '';
 
-            data.forEach(entry => {
+            data.forEach((entry, index) => {
                 const row = document.createElement('tr');
+                const sttCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
+                sttCell.textContent = index + 1;
                 nameCell.textContent = entry['Họ và tên'];
                 amountCell.textContent = parseInt(entry['Số tiền']).toLocaleString('vi-VN');
 
+                row.appendChild(sttCell);
                 row.appendChild(nameCell);
                 row.appendChild(amountCell);
                 tableBody.appendChild(row);
