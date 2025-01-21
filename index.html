@@ -28,9 +28,9 @@
         }
 
         .table-container {
-            width: 90%;
-            max-width: 900px;
-            height: 500px;
+            width: 95%;
+            max-width: 1100px;
+            height: 600px;
             overflow: hidden;
             border-radius: 15px;
             background: rgba(255, 255, 255, 0.9);
@@ -60,14 +60,14 @@
         }
 
         th, td {
-            padding: 12px;
+            padding: 15px;
             border: 1px solid #ddd;
             word-wrap: break-word;
         }
 
         tbody {
             display: block;
-            height: 400px;
+            height: 500px;
             overflow-y: auto;
         }
 
@@ -104,6 +104,18 @@
 
         td:last-child {
             text-align: right;
+        }
+
+        th:nth-child(1), td:nth-child(1) {
+            width: 10%;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 65%;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 25%;
         }
 
         .total {
@@ -158,9 +170,9 @@
         <table>
             <thead>
                 <tr>
-                    <th style="width: 10%;">STT</th>
-                    <th style="width: 60%;">Cá nhân / Tổ chức</th>
-                    <th style="width: 30%;">Số tiền (VNĐ)</th>
+                    <th>STT</th>
+                    <th>Cá nhân / Tổ chức</th>
+                    <th>Số tiền (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
@@ -179,7 +191,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json';
+            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -193,15 +205,15 @@
             let totalAmount = 0;
             tableBody.innerHTML = '';
 
-            data.forEach((entry, index) => {
+            data.forEach(entry => {
                 const row = document.createElement('tr');
                 const sttCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
-                sttCell.textContent = entry['STT'] || index + 1;
-                nameCell.textContent = entry['Cá nhân / Tổ chức'] || 'Không rõ';
-                const amount = parseInt(entry['Số tiền'].replace(/[^0-9]/g, '')) || 0;
+                sttCell.textContent = entry["STT"];
+                nameCell.textContent = entry["Cá nhân / Tổ chức"];
+                const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
 
                 row.appendChild(sttCell);
@@ -215,9 +227,8 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        // Tự động tải lại dữ liệu sau mỗi 15 phút
+        // Tự động tải dữ liệu từ file JSON khi trang được mở
         fetchJSONData();
-        setInterval(fetchJSONData, 900000);
     </script>
 </body>
 </html>
