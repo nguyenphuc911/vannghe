@@ -56,16 +56,13 @@
             z-index: 2;
         }
 
-        th {
-            text-align: center;
-        }
-
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: center;
         }
 
         tbody {
@@ -92,11 +89,6 @@
         tbody tr:hover {
             background-color: #ffe0b2;
             transition: background-color 0.3s;
-        }
-
-        td {
-            font-weight: bold;
-            text-align: center;
         }
 
         td:nth-child(2) {
@@ -192,7 +184,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json';
+            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON của bạn
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -206,13 +198,13 @@
             let totalAmount = 0;
             tableBody.innerHTML = '';
 
-            data.forEach(entry => {
+            data.forEach((entry, index) => {
                 const row = document.createElement('tr');
                 const sttCell = document.createElement('td');
                 const nameCell = document.createElement('td');
                 const amountCell = document.createElement('td');
 
-                sttCell.textContent = entry["STT"];
+                sttCell.textContent = index + 1; // Đánh số thứ tự
                 nameCell.textContent = entry["Cá nhân / Tổ chức"];
                 const amount = parseInt(entry["Số tiền"].replace(/[^0-9]/g, '')) || 0;
                 amountCell.textContent = amount.toLocaleString('vi-VN');
