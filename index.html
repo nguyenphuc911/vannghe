@@ -136,29 +136,20 @@
 
 
         footer {
-    margin-top: -10px; /* Di chuyển lên trên bằng cách giảm margin-top */
+    margin-top: -10px;
     font-size: 1.5em;
     color: #ed5007;
     font-weight: bold;
     text-align: center;
-    animation: wave 3s infinite; /* Hiệu ứng lượn sóng */
+    animation: blink 1s infinite; /* Hiệu ứng nhấp nháy */
 }
 
-@keyframes wave {
-    0% {
-        transform: translateY(0);
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
     }
-    25% {
-        transform: translateY(-10px);
-    }
-    50% {
-        transform: translateY(0);
-    }
-    75% {
-        transform: translateY(10px);
-    }
-    100% {
-        transform: translateY(0);
+    51%, 100% {
+        opacity: 0;
     }
 }
 
