@@ -42,6 +42,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
+            table-layout: fixed;
         }
 
         thead {
@@ -59,8 +60,9 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ddd;
+            word-wrap: break-word;
         }
 
         tbody {
@@ -156,9 +158,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Cá nhân / Tổ chức</th>
-                    <th>Số tiền (VNĐ)</th>
+                    <th style="width: 10%;">STT</th>
+                    <th style="width: 60%;">Cá nhân / Tổ chức</th>
+                    <th style="width: 30%;">Số tiền (VNĐ)</th>
                 </tr>
             </thead>
             <tbody id="data-table">
@@ -198,15 +200,16 @@
                 const amountCell = document.createElement('td');
 
                 sttCell.textContent = index + 1;
-                nameCell.textContent = entry['Họ và tên'];
-                amountCell.textContent = parseInt(entry['Số tiền']).toLocaleString('vi-VN');
+                nameCell.textContent = entry['Họ và tên'] || 'Không rõ';
+                const amount = parseInt(entry['Số tiền'].replace(/[^0-9]/g, '')) || 0;
+                amountCell.textContent = amount.toLocaleString('vi-VN');
 
                 row.appendChild(sttCell);
                 row.appendChild(nameCell);
                 row.appendChild(amountCell);
                 tableBody.appendChild(row);
 
-                totalAmount += parseInt(entry['Số tiền']);
+                totalAmount += amount;
             });
 
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
