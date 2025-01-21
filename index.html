@@ -135,21 +135,24 @@
 }
 
 
-        footer {
-    margin-top: -10px;
+      footer {
+    margin-top: -10px; /* Giữ nguyên khoảng cách */
     font-size: 1.5em;
     color: #ed5007;
     font-weight: bold;
     text-align: center;
-    animation: blink 1s infinite; /* Hiệu ứng nhấp nháy */
+    animation: pulse 3s infinite; /* Hiệu ứng thay đổi độ mờ */
 }
 
-@keyframes blink {
-    0%, 50% {
+@keyframes pulse {
+    0% {
         opacity: 1;
     }
-    51%, 100% {
-        opacity: 0;
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
     }
 }
 
