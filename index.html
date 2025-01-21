@@ -43,7 +43,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed; /* Đảm bảo kích thước cột cố định */
+            table-layout: fixed;
         }
 
         thead {
@@ -63,9 +63,9 @@
         th, td {
             padding: 10px 15px;
             border: 1px solid #ddd;
-            white-space: nowrap; /* Không cho phép xuống dòng */
-            overflow: hidden; /* Ẩn nội dung tràn */
-            text-overflow: ellipsis; /* Hiển thị "..." khi nội dung quá dài */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         tbody {
@@ -78,15 +78,15 @@
         tbody tr {
             display: table;
             width: 100%;
-            table-layout: fixed; /* Đảm bảo cột không thay đổi kích thước */
+            table-layout: fixed;
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f0f8ff; /* Dòng chẵn: xanh nhạt */
+            background-color: #f9f9f9;
         }
 
         tbody tr:nth-child(odd) {
-            background-color: #ffffff; /* Dòng lẻ: trắng */
+            background-color: #ffffff;
         }
 
         tbody tr:hover {
@@ -97,33 +97,26 @@
         td {
             font-weight: bold;
             text-align: center;
-            color: #333;
-        }
-
-        td:nth-child(1) {
-            color: #4caf50; /* Màu xanh lá cho cột STT */
         }
 
         td:nth-child(2) {
-            color: #2196f3; /* Màu xanh dương cho cột Cá nhân / Tổ chức */
             text-align: left;
         }
 
         td:nth-child(3) {
-            color: #f44336; /* Màu đỏ cho cột Số tiền */
             text-align: right;
         }
 
         th:nth-child(1), td:nth-child(1) {
-            width: 10%; /* Cột STT chiếm 10% */
+            width: 10%;
         }
 
         th:nth-child(2), td:nth-child(2) {
-            width: 60%; /* Cột Cá nhân / Tổ chức chiếm 60% */
+            width: 60%;
         }
 
         th:nth-child(3), td:nth-child(3) {
-            width: 30%; /* Cột Số tiền chiếm 30% */
+            width: 30%;
         }
 
         .total {
@@ -199,7 +192,7 @@
         const totalAmountDisplay = document.getElementById('total-amount');
 
         function fetchJSONData() {
-            const jsonUrl = 'data.json'; // Đường dẫn đến file JSON
+            const jsonUrl = 'data.json';
 
             fetch(jsonUrl)
                 .then(response => response.json())
@@ -235,7 +228,6 @@
             totalAmountDisplay.textContent = totalAmount.toLocaleString('vi-VN');
         }
 
-        // Tự động tải dữ liệu từ file JSON
         fetchJSONData();
     </script>
 </body>
