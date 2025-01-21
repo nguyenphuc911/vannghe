@@ -43,7 +43,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 1.3em;
-            table-layout: fixed;
+            table-layout: fixed; /* Đảm bảo kích thước cột cố định */
         }
 
         thead {
@@ -61,9 +61,12 @@
         }
 
         th, td {
-            padding: 10px 15px;
+            padding: 12px;
             border: 1px solid #ddd;
-            word-wrap: break-word;
+            word-wrap: break-word; /* Đảm bảo văn bản không tràn cột */
+            overflow: hidden; /* Ẩn nội dung tràn */
+            white-space: nowrap; /* Không cho xuống dòng */
+            text-overflow: ellipsis; /* Thêm dấu "..." khi tràn */
         }
 
         tbody {
@@ -113,15 +116,15 @@
         }
 
         th:nth-child(1), td:nth-child(1) {
-            width: 10%;
+            width: 10%; /* STT chiếm 10% */
         }
 
         th:nth-child(2), td:nth-child(2) {
-            width: 60%;
+            width: 60%; /* Cá nhân / Tổ chức chiếm 60% */
         }
 
         th:nth-child(3), td:nth-child(3) {
-            width: 30%;
+            width: 30%; /* Số tiền chiếm 30% */
         }
 
         .total {
@@ -243,7 +246,6 @@
             }, 50);
         }
 
-        // Tự động tải dữ liệu từ file JSON khi trang được mở
         fetchJSONData();
     </script>
 </body>
