@@ -22,8 +22,8 @@
         h1 {
             margin: 20px;
             font-size: 3em;
-            color: #ffffff;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            color: #004d99;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
             text-transform: uppercase;
         }
 
@@ -33,8 +33,8 @@
             height: 500px;
             overflow: hidden;
             border-radius: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             border: 1px solid #90caf9;
         }
 
@@ -45,10 +45,13 @@
         }
 
         thead {
-            background-color: #1565c0;
+            background-color: #004d99;
             color: white;
             font-size: 1.3em;
             text-transform: uppercase;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
 
         th, td {
@@ -80,15 +83,31 @@
             margin-top: 20px;
             font-size: 2em;
             font-weight: bold;
-            color: #ffffff;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            color: #004d99;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
         }
 
         footer {
             margin-top: 30px;
-            font-size: 0.9em;
-            color: #ffffff;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            font-size: 1em;
+            color: #ff704d;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         tbody::-webkit-scrollbar {
@@ -123,7 +142,7 @@
     <div class="total">Tổng số tiền: <span id="total-amount">0</span> VND</div>
 
     <footer>
-        <p>&copy; 2025 Hiển thị quyên góp | Bản quyền thuộc về bạn</p>
+        <p>Chân thành cảm ơn các mạnh thường quân đã ủng hộ, góp phần xây dựng cộng đồng tốt đẹp hơn!</p>
     </footer>
 
     <script>
